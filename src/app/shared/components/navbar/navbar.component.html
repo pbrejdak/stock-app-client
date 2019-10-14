@@ -1,0 +1,13 @@
+<mat-toolbar fxLayout="row" fxLayoutAlign="start center">
+  <h1 class="app-name">Stocks</h1>
+  <div fxFlex class="filler"></div>
+  <div class="logged-user" *ngIf="auth.loggedUser$ | async as user">
+    Logged in as {{ user.name }} {{ user.surname }}
+  </div>
+  <button mat-icon-button (click)="goToSettings()">
+    <mat-icon>gear</mat-icon>
+  </button>
+  <button mat-icon-button (click)="auth.logout()">
+    <mat-icon>power_settings_new</mat-icon>
+  </button>
+</mat-toolbar>
