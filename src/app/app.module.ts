@@ -7,16 +7,18 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { SharedModule } from "./shared/shared.module";
 import { AuthService } from "./shared/services/auth.service";
 import { ApiService } from "./shared/services/api.service";
+import { StockRoutingModule } from './stock/stock-routing.module';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
     SharedModule,
+    StockRoutingModule,
     AppRoutingModule,
     BrowserAnimationsModule
   ],
   providers: [AuthService, ApiService],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

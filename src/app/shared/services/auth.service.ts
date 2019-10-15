@@ -1,7 +1,8 @@
 import { Injectable, OnDestroy } from "@angular/core";
 import { Constants } from "../classes/constants";
 import { User } from "../classes/models/user.model";
-import { BehaviorSubject, ReplaySubject, Observable } from "rxjs";
+import { BehaviorSubject, ReplaySubject, Observable, of } from "rxjs";
+import { tap } from 'rxjs/operators';
 import { RegisterForm } from "../classes/models/register-form.model";
 
 @Injectable({
@@ -14,6 +15,8 @@ export class AuthService implements OnDestroy {
 
   private loggedUserSource: ReplaySubject<User> = new ReplaySubject<User>();
   loggedUser$: Observable<User> = this.loggedUserSource.asObservable();
+
+  redirectUrl: string = '';
 
   private initService() {
     this.getUser();
@@ -33,6 +36,11 @@ export class AuthService implements OnDestroy {
     }
   }
 
+  private setLoggedUser(user: User) {
+    sessionStorage.setItem(Constants.sessionStorageUserKey, JSON.stringify(user));
+    this.loggedUserSource.next(user);
+  }
+
   ngOnDestroy() {
     this.loggedUserSource.complete();
   }
@@ -42,7 +50,27 @@ export class AuthService implements OnDestroy {
     this.loggedUserSource.next(null);
   }
 
-  login(email: string, password: string) {}
+  login(email: string, password: string) {
+    // api call;
 
-  register(registerForm: RegisterForm) {}
+    return of(null)
+      .pipe(
+        tap((loggedUser) => this.setLoggedUser(loggedUser)),
+        tap(() => {
+          this.redirectUrl ? this.router.navigate(this.redirectUrl) : this.router.navigate('/dashboard');
+          this.redirectUrl = '';
+        })
+      );
+  }
+
+  register(registerForm: RegisterForm) {
+    return of(null)
+      .pipe(
+        tap((loggedUser) => this.setLoggedUser(loggedUser)),
+        tap(() => {
+          this.redirectUrl ? this.router.navigate(this.redirectUrl) : this.router.navigate('/dashboard');
+          this.redirectUrl = '';
+        })
+      );
+  }
 }

@@ -5,11 +5,10 @@ import { LoginComponent } from "./shared/components/login/login.component";
 const routes: Routes = [
   { path: "login", component: LoginComponent },
   { path: "**", redirectTo: "dashboard" }
-  // {path: 'dashboard', component: AppC}
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
